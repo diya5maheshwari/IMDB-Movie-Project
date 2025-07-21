@@ -1,319 +1,158 @@
-import {
-  Award,
-  BarChart3,
-  Calendar,
-  Clock,
-  DollarSign,
-  Globe,
-  Heart,
-  Play,
-  Share2,
-  Star,
-} from "lucide-react";
+import { Star, Clock, Calendar, Play, Heart, Bookmark, Camera, MessageSquare, Film } from "lucide-react";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import "../App.css";// NEW CSS import
+import { movies as allMovies } from "../data/movies"; // Import the central movie list
+
+// A new component for the streaming button
+const StreamingButton = ({ service }) => {
+    const serviceStyles = {
+        'prime video': 'bg-[#00A8E1] text-white',
+        'netflix': 'bg-[#E50914] text-white',
+        'disney+': 'bg-[#001E63] text-white',
+    };
+    return (
+        <a href="#" className={`block w-full text-center py-3 rounded-lg font-semibold ${serviceStyles[service] || 'bg-gray-600'}`}>
+            Watch on {service.charAt(0).toUpperCase() + service.slice(1)}
+        </a>
+    );
+};
 
 const MovieDetails = () => {
-  const Movies = [
-    {
-      id: 1,
-      title: "Dune: Part Two",
-      rating: 8.8,
-      year: 2024,
-      duration: "166 min",
-      genre: ["Action", "Adventure", "Drama", "Sci-Fi"],
-      director: "Denis Villeneuve",
-      description:
-        "Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family. Facing a choice between the love of his life and the fate of the universe, he endeavors to prevent a terrible future only he can foresee.",
-      image:
-        "https://images.unsplash.com/photo-1534809027769-b00d750a6bac?auto=format&fit=crop&w=2000&q=80",
-      backdrop:
-        "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=2000&q=80",
-      cast: [
-        {
-          id: 1,
-          name: "Timothée Chalamet",
-          role: "Paul Atreides",
-          image:
-            "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80",
-          bio: "Rising star known for his compelling performances",
-        },
-        {
-          id: 2,
-          name: "Zendaya",
-          role: "Chani",
-          image:
-            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
-          bio: "Multi-talented actress and fashion icon",
-        },
-      ],
-      trailer: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      awards: ["Academy Award Nominee", "Golden Globe Nominee"],
-      boxOffice: "$494.7M",
-      language: "English",
-      productionCompany: "Legendary Entertainment",
-      releaseDate: "2024-03-01",
-      metacriticScore: 81,
-      rottenTomatoesScore: 94,
-    },
-    {
-      id: 3,
-      title: "Oppenheimer",
-      rating: 8.4,
-      year: 2023,
-      duration: "180 min",
-      genre: ["Biography", "Drama", "History"],
-      director: "Christopher Nolan",
-      description:
-        "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb during World War II, exploring the moral complexities and consequences of scientific discovery.",
-      image:
-        "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=2000&q=80",
-      backdrop:
-        "https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?auto=format&fit=crop&w=2000&q=80",
-      cast: [
-        {
-          id: 3,
-          name: "Cillian Murphy",
-          role: "J. Robert Oppenheimer",
-          image:
-            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
-          bio: "Versatile actor known for intense performances",
-        },
-        {
-          id: 4,
-          name: "Emily Blunt",
-          role: "Katherine Oppenheimer",
-          image:
-            "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80",
-          bio: "Acclaimed actress with numerous awards",
-        },
-      ],
-      trailer: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      awards: ["Academy Award Winner", "BAFTA Winner", "Golden Globe Winner"],
-      boxOffice: "$957.8M",
-      language: "English",
-      productionCompany: "Universal Pictures",
-      releaseDate: "2023-07-21",
-      metacriticScore: 89,
-      rottenTomatoesScore: 93,
-    },
-    {
-      id: 2,
-      title: "Poor Things",
-      rating: 8.3,
-      year: 2023,
-      duration: "141 min",
-      genre: ["Comedy", "Drama", "Romance", "Sci-Fi"],
-      director: "Yorgos Lanthimos",
-      description:
-        "The incredible tale of Bella Baxter, a young woman brought back to life by the brilliant and unorthodox scientist Dr. Godwin Baxter. Under his protection, Bella is eager to learn.",
-      image:
-        "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=2000&q=80",
-      backdrop:
-        "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=2000&q=80",
-      cast: [
-        {
-          id: 5,
-          name: "Emma Stone",
-          role: "Bella Baxter",
-          image:
-            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80",
-          bio: "Academy Award-winning actress",
-        },
-        {
-          id: 6,
-          name: "Willem Dafoe",
-          role: "Dr. Godwin Baxter",
-          image:
-            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
-          bio: "Legendary actor with diverse roles",
-        },
-      ],
-      trailer: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      awards: ["Academy Award Winner", "Venice Film Festival Winner"],
-      boxOffice: "$102.3M",
-      language: "English",
-      productionCompany: "Searchlight Pictures",
-      releaseDate: "2023-12-08",
-      metacriticScore: 87,
-      rottenTomatoesScore: 92,
-    },
-    {
-      id: 4,
-      title: "The Zone of Interest",
-      rating: 7.9,
-      year: 2023,
-      duration: "105 min",
-      genre: ["Drama", "History", "War"],
-      director: "Jonathan Glazer",
-      description:
-        "The commandant of Auschwitz, Rudolf Höss, and his wife Hedwig, strive to build a dream life for their family in a house and garden next to the camp.",
-      image:
-        "https://images.unsplash.com/photo-1533928298208-27ff66555d8d?auto=format&fit=crop&w=2000&q=80",
-      backdrop:
-        "https://images.unsplash.com/photo-1533073526757-2c8ca1df9f1c?auto=format&fit=crop&w=2000&q=80",
-      cast: [
-        {
-          id: 7,
-          name: "Christian Friedel",
-          role: "Rudolf Höss",
-          image:
-            "https://images.unsplash.com/photo-1504257432389-52343af06ae3?auto=format&fit=crop&w=200&q=80",
-          bio: "German actor and musician",
-        },
-        {
-          id: 8,
-          name: "Sandra Hüller",
-          role: "Hedwig Höss",
-          image:
-            "https://images.unsplash.com/photo-1557296387-5358ad7997bb?auto=format&fit=crop&w=200&q=80",
-          bio: "Award-winning German actress",
-        },
-      ],
-      trailer: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      awards: ["Academy Award Winner", "Cannes Film Festival Winner"],
-      boxOffice: "$27.1M",
-      language: "German",
-      productionCompany: "A24",
-      releaseDate: "2024-01-31",
-      metacriticScore: 94,
-      rottenTomatoesScore: 91,
-    },
-  ];
   const { id } = useParams();
-  const movie = Movies.find((m) => m.id === Number(id)) || Movies[0];
+  const movie = allMovies.find((m) => m.id === Number(id));
+
+  if (!movie) {
+    return <div className="text-center py-20 text-2xl text-gray-400">Movie not found!</div>;
+  }
+
+  // Filter for related movies (e.g., same genre)
+  const relatedMovies = allMovies.filter(m => m.genre.some(g => movie.genre.includes(g)) && m.id !== movie.id).slice(0, 4);
 
   return (
-    <div>
-      <div className="backdrop-container">
-        <div
-          className="backdrop-image"
-          style={{ backgroundImage: `url(${movie.backdrop || movie.image})` }}
-        >
-          <div className="backdrop-overlay" />
+    <div className="bg-[#121212] text-white">
+      {/* --- Backdrop and Poster Section --- */}
+      <div className="relative h-[60vh] md:h-[70vh]">
+        <div className="absolute inset-0">
+          <img src={movie.backdrop} alt={`${movie.title} backdrop`} className="w-full h-full object-cover opacity-30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/80 to-transparent" />
         </div>
-
-        <div className="content-wrapper">
-          <div className="movie-details-grid">
-            <div className="movie-poster">
-              <img src={movie.image} alt={movie.title} />
+        <div className="relative container mx-auto px-4 h-full flex items-end pb-8">
+            <div className="flex flex-col md:flex-row items-end gap-8">
+                <img src={movie.image} alt={movie.title} className="w-48 md:w-60 rounded-lg shadow-2xl aspect-[2/3] object-cover -mb-16 md:-mb-24 ring-4 ring-gray-800" />
+                <div>
+                    <h1 className="text-4xl md:text-6xl font-bold">{movie.title}</h1>
+                    <div className="flex items-center gap-4 text-gray-400 mt-2">
+                        <span>{movie.year}</span>
+                        <span>•</span>
+                        <span>{movie.duration}</span>
+                    </div>
+                </div>
             </div>
-
-            <div className="movie-main-info">
-              <div className="movie-tags">
-                <div className="tag rating">
-                  <Star className="icon yellow" />
-                  <span>{movie.rating} Rating</span>
-                </div>
-                <div className="tag">
-                  <Clock className="icon gray" />
-                  <span>{movie.duration}</span>
-                </div>
-                <div className="tag">
-                  <Calendar className="icon gray" />
-                  <span>{movie.releaseDate}</span>
-                </div>
-              </div>
-
-              <h1 className="movie-title">{movie.title}</h1>
-
-              <div className="genre-tags">
-                {movie.genre.map((g) => (
-                  <span key={g} className="genre">
-                    {g}
-                  </span>
-                ))}
-              </div>
-
-              <div className="movie-actions">
-                <a href={movie.trailer} target="_blank" rel="noopener noreferrer" className="btn yellow">
-                  <Play className="icon" />
-                  Watch Trailer
-                </a>
-                <button className="btn gray">
-                  <Heart className="icon" />
-                  Add to Watchlist
-                </button>
-                <button className="icon-btn">
-                  <Share2 className="icon" />
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
-      <main className="main-content">
-        <div className="main-grid">
-          <div className="left-content">
-            <section className="section">
-              <h2>Overview</h2>
-              <p className="description">{movie.description}</p>
-            </section>
+      {/* --- Main Content Section --- */}
+      <div className="container mx-auto px-4 pt-20 md:pt-32 pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-12">
+          {/* Left Column */}
+          <div className="space-y-10">
+            <div className="flex gap-2">
+                {movie.genre.map(g => <span key={g} className="bg-gray-800 text-gray-300 px-4 py-1.5 rounded-full text-sm font-semibold">{g}</span>)}
+            </div>
+            
+            <p className="text-lg text-gray-300 leading-relaxed">{movie.description}</p>
 
-            <section className="section">
-              <h2>Awards & Recognition</h2>
-              <div className="awards-grid">
-                {movie.awards.map((award, index) => (
-                  <div key={index} className="award-box">
-                    <Award className="icon yellow" />
-                    <span>{award}</span>
-                  </div>
-                ))}
-                <div className="award-box">
-                  <BarChart3 className="icon green" />
-                  <span>Metacritic: {movie.metacriticScore}/100</span>
+            <div>
+                <div className="border-b border-gray-700 pb-2 mb-4">
+                    <h3 className="text-xl font-semibold text-yellow-400">Creator</h3>
                 </div>
-                <div className="award-box">
-                  <BarChart3 className="icon red" />
-                  <span>Rotten Tomatoes: {movie.rottenTomatoesScore}%</span>
-                </div>
-              </div>
-            </section>
+                <p className="text-gray-300">{movie.creator}</p>
+            </div>
 
-            <section className="section">
-              <h2>Top Cast</h2>
-              <div className="cast-grid">
-                {movie.cast.map((actor) => (
-                  <Link key={actor.id} to={`/actor/${actor.id}`} className="cast-card">
-                    <img src={actor.image} alt={actor.name} />
-                    <div>
-                      <h3>{actor.name}</h3>
-                      <p className="role">{actor.role}</p>
-                      <p className="bio">{actor.bio}</p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </section>
+            <div>
+                <div className="border-b border-gray-700 pb-2 mb-4">
+                    <h3 className="text-xl font-semibold text-yellow-400">Writers</h3>
+                </div>
+                <p className="text-gray-300">{movie.writers.join(', ')}</p>
+            </div>
+            
+            <div>
+                 <div className="border-b border-gray-700 pb-2 mb-4">
+                    <h3 className="text-xl font-semibold text-yellow-400">Stars</h3>
+                </div>
+                <div className="flex flex-col gap-4">
+                    {movie.cast.map(actor => (
+                        <Link to={`/actor/${actor.id}`} key={actor.id} className="flex items-center gap-4 hover:bg-gray-800 p-2 rounded-lg transition-colors">
+                            <img src={actor.image} alt={actor.name} className="w-12 h-12 rounded-full object-cover"/>
+                            <div>
+                                <p className="font-semibold text-white">{actor.name}</p>
+                                <p className="text-sm text-gray-400">{actor.role}</p>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </div>
           </div>
 
-          <div className="right-content">
-            <div className="info-box">
-              <h3>Movie Info</h3>
-              <dl>
-                <div>
-                  <dt>Director</dt>
-                  <dd>{movie.director}</dd>
+          {/* Right Column (Sidebar) */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                    <Star className="w-8 h-8 text-yellow-400 fill-yellow-400"/>
+                    <div>
+                        <p className="text-xl font-bold">{movie.rating}<span className="text-sm text-gray-400">/10</span></p>
+                        <p className="text-sm text-gray-400">{movie.votes}</p>
+                    </div>
                 </div>
-                <div>
-                  <dt>Production Company</dt>
-                  <dd>{movie.productionCompany}</dd>
-                </div>
-                <div>
-                  <dt>Box Office</dt>
-                  <dd><DollarSign className="icon green" /> {movie.boxOffice}</dd>
-                </div>
-                <div>
-                  <dt>Language</dt>
-                  <dd><Globe className="icon blue" /> {movie.language}</dd>
-                </div>
-              </dl>
+            </div>
+            
+            {movie.streamingOn && <StreamingButton service={movie.streamingOn} />}
+            
+            <button className="w-full bg-yellow-400 text-black py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-yellow-300 transition-colors">
+                <Heart /> Add to Watchlist
+            </button>
+            <button className="w-full bg-gray-800 text-gray-300 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-gray-700 transition-colors">
+                <Bookmark /> Mark as Watched
+            </button>
+
+            <div className="flex justify-around text-center text-gray-400 pt-4">
+                <a href="#" className="hover:text-white">
+                    <Camera className="mx-auto mb-1"/>
+                    <p>{movie.photoCount}+ Photos</p>
+                </a>
+                 <a href="#" className="hover:text-white">
+                    <MessageSquare className="mx-auto mb-1"/>
+                    <p>{movie.userReviews} User reviews</p>
+                </a>
+            </div>
+
+            {/* Extra Details */}
+            <div className="bg-gray-800/50 p-4 rounded-lg">
+                <h4 className="font-semibold text-yellow-400 mb-2">Did you know?</h4>
+                <p className="text-sm text-gray-300">{movie.trivia}</p>
             </div>
           </div>
         </div>
-      </main>
+
+        {/* Related Movies Section */}
+        <div className="mt-20">
+            <h2 className="text-3xl font-bold mb-6 text-yellow-400 flex items-center gap-3"><Film/> More Like This</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {relatedMovies.map(m => (
+                    <Link to={`/movie/${m.id}`} key={m.id} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:-translate-y-2 transition-transform">
+                        <img src={m.image} alt={m.title} className="w-full h-64 object-cover"/>
+                        <div className="p-4">
+                            <h4 className="font-semibold truncate">{m.title}</h4>
+                            <div className="flex items-center justify-between text-sm text-gray-400 mt-1">
+                                <span>{m.year}</span>
+                                <span className="flex items-center gap-1"><Star className="w-4 h-4 text-yellow-400"/> {m.rating}</span>
+                            </div>
+                        </div>
+                    </Link>
+                ))}
+            </div>
+        </div>
+      </div>
     </div>
   );
 };

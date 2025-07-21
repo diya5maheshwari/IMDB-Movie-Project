@@ -1,86 +1,45 @@
-import { Search, SlidersHorizontal, Star } from "lucide-react";
+import { SlidersHorizontal, Star } from "lucide-react";
 import React from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import "../App.css";
-
+import { movies as allMovies } from "../data/movies"; // Import central movie list
 
 const MovieList = () => {
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
 
-  const Movies = [
-    {
-      id: 1,
-      title: "Dune: Part Two",
-      rating: 8.8,
-      image: "https://images.unsplash.com/photo-1534809027769-b00d750a6bac?auto=format&fit=crop&w=800&q=80",
-      year: 2024,
-      genre: ["Action", "Adventure", "Sci-Fi"],
-    },
-    {
-      id: 2,
-      title: "Poor Things",
-      rating: 8.4,
-      image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80",
-      year: 2023,
-      genre: ["Comedy", "Drama", "Romance"],
-    },
-    {
-      id: 3,
-      title: "Oppenheimer",
-      rating: 8.9,
-      image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=800&q=80",
-      year: 2023,
-      genre: ["Biography", "Drama", "History"],
-    },
-    {
-      id: 4,
-      title: "The Batman",
-      rating: 8.5,
-      image: "https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?auto=format&fit=crop&w=800&q=80",
-      year: 2024,
-      genre: ["Action", "Crime", "Drama"],
-    },
-    {
-      id: 5,
-      title: "Killers of the Flower Moon",
-      rating: 8.7,
-      image: "https://images.unsplash.com/photo-1533928298208-27ff66555d8d?auto=format&fit=crop&w=800&q=80",
-      year: 2023,
-      genre: ["Crime", "Drama", "History"],
-    },
-  ];
+  // In a real app, you would filter based on the search param
+  const Movies = allMovies;
 
   return (
-    <div className="movie-container">
-      <div className="movie-header">
-        <h1 className="movie-heading">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-white">
           {search ? `Search Results for "${search}"` : "Popular Movies"}
         </h1>
-        <button className="filter-button">
-          <SlidersHorizontal className="filter-icon" />
+        <button className="flex items-center gap-2 bg-gray-800 text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-700">
+          <SlidersHorizontal className="w-5 h-5" />
           Filters
         </button>
       </div>
 
-      <div className="movie-scroll-container">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {Movies.map((movie) => (
-          <Link key={movie.id} to={`/movie/${movie.id}`} style={{textDecoration:"none"}} >
-            <div className="movie-card">
-              <div className="movie-image-container">
-                <img src={movie.image} alt={movie.title} className="movie-image" />
-                <div className="movie-rating-badge">
-                  <Star className="movie-rating-icon" />
-                  <span className="movie-rating-text">{movie.rating}</span>
+          <Link key={movie.id} to={`/movie/${movie.id}`} className="no-underline">
+            <div className="bg-gray-800 rounded-2xl overflow-hidden transition-transform duration-300 hover:scale-105 group">
+              <div className="relative">
+                <img src={movie.image} alt={movie.title} className="w-full h-96 object-cover" />
+                <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                  <Star className="w-4 h-4 text-yellow-400" />
+                  <span className="text-sm text-yellow-400 font-semibold">{movie.rating}</span>
                 </div>
               </div>
-              <div className="movie-details">
-                <h2 className="movie-title">{movie.title}</h2>
-                <div className="movie-subinfo">
-                  <span className="movie-year">{movie.year}</span>
-                  <div className="flex">
+              <div className="p-4">
+                <h2 className="text-lg font-semibold text-white truncate mb-2 group-hover:text-yellow-300">{movie.title}</h2>
+                <div className="flex justify-between items-center">
+                  <span className="text-base text-gray-400">{movie.year}</span>
+                  <div className="flex gap-1.5">
                     {movie.genre.slice(0, 2).map((g) => (
-                      <span key={g} className="genre-pill">{g}</span>
+                      <span key={g} className="bg-gray-700 text-gray-300 text-xs px-2.5 py-1 rounded-full">{g}</span>
                     ))}
                   </div>
                 </div>
@@ -89,7 +48,6 @@ const MovieList = () => {
           </Link>
         ))}
       </div>
-
     </div>
   );
 };

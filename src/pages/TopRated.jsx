@@ -2,80 +2,61 @@ import { Star, Trophy } from "lucide-react";
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import '../App.css' // Updated CSS import
+import { movies as allMovies } from "../data/movies"; 
 
-const Toprated = () => {
-  const movies = [
-    {
-      id: 1,
-      title: "The Shawshank Redemption",
-      rating: 9.3,
-      image:
-        "https://images.unsplash.com/photo-1534809027769-b00d750a6bac?auto=format&fit=crop&w=800&q=80",
-      year: 1994,
-      votes: "2.8M",
-      rank: 1,
-    },
-    {
-      id: 2,
-      title: "The Godfather",
-      rating: 9.2,
-      image:
-        "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80",
-      year: 1972,
-      votes: "2.1M",
-      rank: 2,
-    },
-    {
-      id: 3,
-      title: "The Dark Knight",
-      rating: 9.0,
-      image:
-        "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=800&q=80",
-      year: 2008,
-      votes: "2.7M",
-      rank: 3,
-    },
-  ];
+const TopRated = () => {
+  const currentYear = new Date().getFullYear();
+
+  // 1. Filter out upcoming movies
+  // 2. Sort the remaining movies by rating
+  // 3. Take the top 5
+  const topMovies = allMovies
+    .filter(movie => movie.year <= currentYear) 
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 5);
 
   return (
-    <div className="tr-container">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="tr-header"
+        className="flex items-center gap-3 mb-8"
       >
-        <Trophy className="tr-icon-trophy" />
-        <h1 className="tr-title">Top Rated Movies</h1>
+        <Trophy className="w-8 h-8 text-yellow-400" />
+        <h1 className="text-3xl font-bold">Top 5 Rated Movies</h1>
       </motion.div>
 
-      <div className="tr-list">
-        {movies.map((movie, index) => (
+      <div className="flex flex-col gap-6">
+        {topMovies.map((movie, index) => (
           <motion.div
             key={movie.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <Link to={`/movie/${movie.id}`} style={{textDecoration:"none"}} >
-              <div className="tr-movie-card">
-                <div className="tr-movie-rank">#{movie.rank}</div>
-                <div className="tr-movie-image">
-                  <img src={movie.image} alt={movie.title} />
+            <Link to={`/movie/${movie.id}`} className="no-underline">
+              <div className="bg-gray-800 text-gray-900 rounded-xl overflow-hidden shadow-lg flex transition-all duration-300 hover:shadow-yellow-400/20 hover:scale-101">
+                <div className="w-28 bg-yellow-400 flex items-center justify-center font-bold text-2xl p-2">
+                  #{index + 1}
                 </div>
-                <div className="tr-movie-content">
-                  <div className="tr-movie-header">
-                    <h2 className="tr-movie-title">{movie.title}</h2>
-                    <div className="tr-movie-rating">
-                      <Star className="tr-icon-star" />
-                      <span className="tr-rating-text">{movie.rating}</span>
+                <div className="w-48 relative">
+                  <img src={movie.image} alt={movie.title} className="w-full h-full object-cover" />
+                </div>
+                <div className="flex-1 p-6">
+                  <div className="flex items-start justify-between mb-3">
+                    <h2 className="text-2xl font-semibold text-white">{movie.title}</h2>
+                    <div className="flex items-center gap-1 bg-gray-200 px-3 py-1 rounded-full">
+                      <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                      <span className="text-sm font-semibold text-gray-800">{movie.rating}</span>
                     </div>
                   </div>
-                  <div className="tr-movie-info">
+                  <div className="text-gray-400">
                     <span>{movie.year}</span>
-                    <span className="tr-dot">•</span>
-                    <span>{movie.votes} votes</span>
+                    {movie.votes && <>
+                        <span className="mx-2">•</span>
+                        <span>{movie.votes} votes</span>
+                    </>}
                   </div>
                 </div>
               </div>
@@ -87,4 +68,4 @@ const Toprated = () => {
   );
 };
 
-export default Toprated;
+export default TopRated;

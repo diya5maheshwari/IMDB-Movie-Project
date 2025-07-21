@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Calendar, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import '../App.css';
 
 const featuredMovies = [
     {
@@ -9,7 +8,7 @@ const featuredMovies = [
         title: "Inception",
         rating: 8.8,
         description: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.",
-        image: "https://musicart.xboxlive.com/7/c96d1100-0000-0000-0000-000000000002/504/image.jpg",
+        image: "https://musicart.xboxlive.com/7/c9d1100-0000-0000-0000-000000000002/504/image.jpg",
         releaseDate: "2010-07-16",
     },
     {
@@ -52,27 +51,31 @@ const Hero = () => {
     const movie = featuredMovies[currentMovie];
 
     return (
-        <div className="hero-container">
-            <div className="hero-bg" style={{ backgroundImage: `url(${movie.image})` }}></div>
-            <div className="hero-overlay"></div>
-            <div className="hero-content">
-                <div className="hero-meta">
-                    <span style={{color:"yellow"}} ><Star />  {movie.rating} Rating</span>
-                    <span><Calendar /> {movie.releaseDate}</span>
+        <div className="relative h-[90vh] text-white overflow-hidden flex flex-col justify-center">
+            <div className="absolute inset-0 bg-cover bg-center filter brightness-60" style={{ backgroundImage: `url(${movie.image})` }}></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+            <div className="relative z-10 px-10 md:px-40 max-w-4xl">
+                <div className="flex gap-8 mb-4">
+                    <span className="flex items-center gap-2 text-lg text-yellow-400 bg-black/50 px-2.5 py-1 rounded-lg shadow-md"><Star />  {movie.rating} Rating</span>
+                    <span className="flex items-center gap-2 text-lg text-white bg-black/50 px-2.5 py-1 rounded-lg shadow-md"><Calendar /> {movie.releaseDate}</span>
                 </div>
-                <h1 className="hero-title">{movie.title}</h1>
-                <p className="hero-description">{movie.description}</p>
-                <div className="hero-buttons">
-                    <Link to={`/movies/${movie.id}`} className="btn"><Play /> Watch Trailer</Link>
-                    <Link to={`/movies/${movie.id}`} className="btn" style={{backgroundColor:"#1e1d1d",color:"white"}} >More Info</Link>
+                <h1 className="text-6xl font-bold mb-4">{movie.title}</h1>
+                <p className="text-lg mb-6 text-gray-300">{movie.description}</p>
+                <div className="flex gap-4 mt-4">
+                    <Link to={`/movies/${movie.id}`} className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-bold flex items-center gap-2 hover:bg-yellow-300 transition-colors">
+                        <Play /> Watch Trailer
+                    </Link>
+                    <Link to={`/movies/${movie.id}`} className="bg-gray-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-gray-700 transition-colors">
+                        More Info
+                    </Link>
                 </div>
             </div>
 
-            <div className="hero-dots">
+            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2.5 z-20">
                 {featuredMovies.map((_, index) => (
                     <button
                         key={index}
-                        className={index === currentMovie ? "active" : ""}
+                        className={`w-3 h-3 rounded-full transition-opacity ${index === currentMovie ? "bg-yellow-400 opacity-100" : "bg-white opacity-50"}`}
                         onClick={() => setCurrentMovie(index)}
                     />
                 ))}

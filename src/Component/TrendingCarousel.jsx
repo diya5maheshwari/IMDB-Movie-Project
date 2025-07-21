@@ -1,4 +1,3 @@
-import '../App.css';
 import { Star } from 'lucide-react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, EffectCoverflow } from "swiper/modules";
@@ -6,7 +5,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
-import { motion } from 'framer-motion';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion'; // Corrected import
 
 function TrendingCarousel() {
     // Animation variants for Framer Motion
@@ -17,6 +17,7 @@ function TrendingCarousel() {
     };
     
     const trendingMovies = [
+        // ... (movie data remains the same)
         {
             id: 1,
             title: "Chhaava",
@@ -69,18 +70,19 @@ function TrendingCarousel() {
 
     return (
         <motion.div 
-            className="carousel-container"
+            className="py-10 px-5 bg-gradient-to-r from-gray-900 to-black text-white max-w-7xl mx-auto rounded-3xl shadow-2xl overflow-hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
         >
             <motion.h2 
-                className='carousel-heading'
+                className='text-4xl text-center mb-8 text-yellow-400 tracking-wide relative pb-2'
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
             >
                 🔥 Trending Movies
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-0.5 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></span>
             </motion.h2>
             
             <Swiper
@@ -102,7 +104,7 @@ function TrendingCarousel() {
                 pagination={{ clickable: true }}
                 navigation={true}
                 modules={[Autoplay, Pagination, Navigation, EffectCoverflow]}
-                className="mySwiper"
+                className="mySwiper py-8"
                 breakpoints={{
                     640: { slidesPerView: 1 },
                     768: { slidesPerView: 2 },
@@ -110,20 +112,20 @@ function TrendingCarousel() {
                 }}
             >
                 {trendingMovies.map((movie) => (
-                    <SwiperSlide key={movie.id}>
+                    <SwiperSlide key={movie.id} className="max-w-xs">
                         <motion.div 
-                            className="carousel-item"
+                            className="bg-gray-800 rounded-2xl overflow-hidden shadow-lg w-full h-full mx-auto"
                             variants={cardVariants}
                             initial="hidden"
                             animate="visible"
                             whileHover="hover"
                         >
-                            <img src={movie.image} alt={movie.title} />
-                            <div className="carousel-item-info">
-                                <h3>{movie.title}</h3>
-                                <p><span>Rating:</span> <Star color='yellow' fill='yellow' size={16} /> {movie.rating}</p>
-                                <p><span>Year:</span> {movie.year}</p>
-                                <p><span>Genre:</span> {movie.genre.join(", ")}</p>
+                            <img src={movie.image} alt={movie.title} className="w-full h-72 object-cover border-b-2 border-yellow-400 block" />
+                            <div className="p-5">
+                                <h3 className="text-2xl mb-2 text-yellow-300 font-semibold">{movie.title}</h3>
+                                <p className="flex items-center gap-1.5 text-gray-200"><span>Rating:</span> <Star color='yellow' fill='yellow' size={16} /> {movie.rating}</p>
+                                <p className="text-gray-200"><span className="font-bold">Year:</span> {movie.year}</p>
+                                <p className="text-gray-200"><span className="font-bold">Genre:</span> {movie.genre.join(", ")}</p>
                             </div>
                         </motion.div>
                     </SwiperSlide>
