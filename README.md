@@ -3,13 +3,7 @@
 
 This project is a feature-rich, responsive movie database website built with **React** and **Vite**, and styled with **Tailwind CSS**. It provides a seamless and visually engaging experience for users to discover, explore, and review movies and actors, drawing inspiration from professional platforms like IMDb. The application is designed with a clean, component-based architecture and a centralized data management system to ensure consistency and maintainability.
 
------
 
-## Project Screenshot
-
-Here is a glimpse of the application's homepage, showcasing the clean design and modern user interface.
-
-*(To add your own screenshot: Take a picture of your running application, upload it to a site like [Imgur](https://imgur.com/upload), and replace the URL below with your image link.)*
 
 -----
 
@@ -95,3 +89,25 @@ To get a local copy up and running, follow these simple steps.
     ```
 
 The application will be available at `http://localhost:5173`. Any changes you make to the source code will be reflected instantly in the browser.
+
+-----
+
+## Project Screenshot
+
+Here is a glimpse of the application's homepage, showcasing the clean design and modern user interface.
+
+### Home Page
+![Project Screenshot](https://github.com/diya5maheshwari/IMDB-Movie-Project/blob/main/src/assets/Home_page.png)
+
+### Trending Movies 
+![Project Screenshot](https://github.com/diya5maheshwari/IMDB-Movie-Project/blob/main/src/assets/Trending_movie.png)
+
+### Coming Soon 
+![Project Screenshot](https://github.com/diya5maheshwari/IMDB-Movie-Project/blob/main/src/assets/Comming_soon.png)
+
+### Review 
+![Project Screenshot](https://github.com/diya5maheshwari/IMDB-Movie-Project/blob/main/src/assets/Review.png)
+
+### Actor Profile 
+![Project Screenshot](https://github.com/diya5maheshwari/IMDB-Movie-Project/blob/main/src/assets/Actor_profile.png)
+
