@@ -3,8 +3,10 @@
 
 This project is a feature-rich, responsive movie database website built with **React** and **Vite**, and styled with **Tailwind CSS**. It provides a seamless and visually engaging experience for users to discover, explore, and review movies and actors, drawing inspiration from professional platforms like IMDb. The application is designed with a clean, component-based architecture and a centralized data management system to ensure consistency and maintainability.
 
+-----
+## 🚀 Live Demo
 
-
+You can view the live deployment here: **[IMDb Movie Project](https://imdb-movie-project.netlify.app/)**
 -----
 
 ## Key Features
@@ -54,9 +56,9 @@ The project follows a standard React application structure to keep the codebase 
 
 For a detailed breakdown of the project's objectives, development process, challenges faced, and solutions implemented, please view the full project report.
 
-  * [**View the Full Project Report (PDF)**](https://www.google.com/search?q=http://link-to-your-report.pdf)
+  * [**View the Full Project Report (PDF)**](https://github.com/diya5maheshwari/IMDB-Movie-Project/blob/main/Diya_Maheshwari_internship_report.1.pdf)
 
-*(To add your link: Upload your PDF to a service like Google Drive or GitHub and replace the placeholder URL above.)*
+
 
 -----
 
